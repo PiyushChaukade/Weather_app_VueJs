@@ -3,20 +3,23 @@
 
   <div id="img"> 
 
-  <div id="div1">
+  <div id="div1">  <font-awesome-icon icon="fa-solid fa-user-secret" />
      <img :src=URL />
       <h3>{{city_Name}} City</h3>
       <h1>{{temp}} ℃</h1>
 <br>
 
-  <span><input id="inputSearch" v-model="inputvalue" placeholder="Change Location" v-on:keyup.enter="getValue" >
-  <button id="inputButton1" @click="getValue">Search</button></span>
+  <span><input id="inputSearch" v-model="inputvalue" placeholder="Change Location" v-on:keyup.enter="getValue" >  </span>
+  <span id="inside"><i @click="getValue" class="fa fa-search-location"></i></span>
+  <!-- <button id="inputButton1" @click="getValue">Search</button> -->
+
   <br>
+   <br>
       <span id="hovering"> <img src="../../icons/sunrise.png" />&nbsp;  {{sunrise}}</span>
       <br>
-      <span > <img src="../../icons/sunset.png" /> &nbsp;{{sunset}}</span>
+      <span id="hovering" > <img src="../../icons/sunset.png" /> &nbsp;{{sunset}}</span>
       <br>
-      <span > <img src="../../icons/calendar.png" /> &nbsp;{{currentTime}}</span>
+      <span  id="hovering"> <img src="../../icons/calendar.png" /> &nbsp;{{currentTime}}</span>
 
 
   </div>
@@ -253,8 +256,12 @@
  
 </template>
 <script>
+  //import { library } from '@fortawesome/fontawesome-svg-core'
+  //import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
+//library.add(faUserSecret)
 export default {
+  
   data(){
     return{
        latitude:'',
@@ -1236,6 +1243,7 @@ let Daily_date5=(res.data.daily[4].dt);
 
 
 <style>
+
 *{
   margin: 0;
 }
@@ -1401,6 +1409,8 @@ transform: scale(1.1);
 padding-left:30px;
   display: inline-block;
 color:white;
+    height: 20px;
+ border-radius: 25px;
 
 }
 #inputButton1{
@@ -1422,6 +1432,277 @@ color:white;
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 1; /* Firefox */
+}
+#inside{
+margin-left: -20px;
+}
+#hovering{
+  transition: all .2s ease-in-out;
+}
+#hovering:hover{
+transform: scale(1.5);
+font-weight: bolder;
+
+}
+#hovering>img{
+  transition: all .2s ease-in-out;
+}
+#hovering:hover>img{
+transform: scale(1.2);
+}
+
+
+@media (min-width:350px) and (max-width:500px  ){
+body{
+  background-color:red;
+}
+#div1>h3{
+  font-size: 15px;
+}
+#div1>h1{
+font-family:Arial;
+font-weight: bolder;
+ font-size: 35px;
+  
+}
+#div1>span>img{
+ height: 25px;
+ width: 25px;
+}
+#humidty>img{
+  height: 25px;
+  width: 25px;
+}
+#humidty1{
+  vertical-align: top;
+font-weight: bolder;
+  font-family:Arial ;
+  font-size: 16px;
+}
+#div2_1>p{
+
+  margin-left: 10%;
+font-weight: bolder;
+  font-family:Arial ;
+  font-size: 16px;
+}
+#div3_1{
+box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  display: inline-block;
+  border:none;
+  border-radius: 3px;
+  height: 110px;
+  width: 120px;
+  margin-right: 10px;
+  text-align: left;
+  transition: all .2s ease-in-out;
+}
+#inputSearch{
+ 
+padding-left:15px;
+  display: inline-block;
+color:white;
+  height: 20px;
+ border-radius: 25px;
+ width: 140px;
+}
+#inside{
+margin-left: 130px;
+position: absolute;
+margin-top: -20px;
+}
+#div2{
+  display: inline-block;
+  margin-left: 60%;
+  vertical-align: top;
+  
+  margin-top: 5%;
+  width: 20%;
+  height: 25%;
+   color: whitesmoke;
+}
+#hovering{
+font-size: 14px;
+}
+#img{
+  background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+
+height: 830px;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+  color: aqua;
+  /* //background-image: url("https://images.pexels.com/photos/3454270/pexels-photo-3454270.jpeg?auto=compress&cs=tinysrgb&w=1500&h=900&dpr=1"); */
+}
+#div3_1>p:nth-child(1){
+ font-weight: bolder;
+  padding: 5px 0px 0px 10px;
+  font-size: 13px;
+}
+#div3_1>h1{
+ font-weight: bolder;
+  padding: 10px 0px 0px 40px;
+  font-family: Arial;
+  font-weight: bolder;
+ font-size: 20px;
+}
+#div3_1>p:nth-child(3){
+  font-size: 13px;
+  padding: 5px 0px 0px 25px;
+}
+#div3_1>p:nth-child(4){
+  text-align: center;
+}
+#buttonChange{
+  margin-top: 3%;
+  margin-left: 2%;
+}
+#buttonChange>button{
+  margin-right: 1%;
+  border-radius: 10px;
+ padding: 10px;
+ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+   background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    color:white;
+    transition: all .2s ease-in-out;
+}
+#buttonChange>button:hover{
+transform: scale(1.1);
+
+}
+}
+
+
+@media  (max-width:500px  ){
+body{
+  background-color:green;
+}
+#div1>h3{
+  font-size: 15px;
+}
+#div1>h1{
+font-family:Arial;
+font-weight: bolder;
+ font-size: 35px;
+  
+}
+#div1>span>img{
+ height: 25px;
+ width: 25px;
+}
+#humidty>img{
+  height: 25px;
+  width: 25px;
+}
+#humidty1{
+  vertical-align: top;
+font-weight: bolder;
+  font-family:Arial ;
+  font-size: 16px;
+}
+#div2_1>p{
+
+  margin-left: 10%;
+font-weight: bolder;
+  font-family:Arial ;
+  font-size: 16px;
+}
+#div3_1{
+box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  display: inline-block;
+  border:none;
+  border-radius: 3px;
+  height: 110px;
+  width: 120px;
+  margin-right: 10px;
+  text-align: left;
+  transition: all .2s ease-in-out;
+}
+#inputSearch{
+ 
+padding-left:15px;
+  display: inline-block;
+color:white;
+  height: 20px;
+ border-radius: 25px;
+ width: 140px;
+}
+#inside{
+margin-left: 130px;
+position: absolute;
+margin-top: -20px;
+}
+#div2{
+  display: inline-block;
+  margin-left: 60%;
+  vertical-align: top;
+  
+  margin-top: 5%;
+  width: 20%;
+  height: 25%;
+   color: whitesmoke;
+}
+#hovering{
+font-size: 14px;
+}
+#img{
+  background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+
+height: 1200px;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+  color: aqua;
+  /* //background-image: url("https://images.pexels.com/photos/3454270/pexels-photo-3454270.jpeg?auto=compress&cs=tinysrgb&w=1500&h=900&dpr=1"); */
+}
+#div3_1>p:nth-child(1){
+ font-weight: bolder;
+  padding: 5px 0px 0px 10px;
+  font-size: 13px;
+}
+#div3_1>h1{
+ font-weight: bolder;
+  padding: 10px 0px 0px 40px;
+  font-family: Arial;
+  font-weight: bolder;
+ font-size: 20px;
+}
+#div3_1>p:nth-child(3){
+  font-size: 13px;
+  padding: 5px 0px 0px 25px;
+}
+#div3_1>p:nth-child(4){
+  text-align: center;
+}
+#buttonChange{
+  margin-top: 3%;
+  margin-left: 2%;
+}
+#buttonChange>button{
+  margin-right: 1%;
+  border-radius: 10px;
+ padding: 10px;
+ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+   background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    color:white;
+    transition: all .2s ease-in-out;
+}
+#buttonChange>button:hover{
+transform: scale(1.1);
+
+}
 }
 </style>
 

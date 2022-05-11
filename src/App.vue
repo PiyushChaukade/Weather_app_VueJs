@@ -5,11 +5,11 @@
 
 <script>
 import Weatherapp from './components/WeatherApp.vue'
-
 export default {
   name: 'App',
  components:{
-   Weatherapp
+   Weatherapp,
+  
  }, 
 }
 </script>
