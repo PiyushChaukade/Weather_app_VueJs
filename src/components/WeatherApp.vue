@@ -9,17 +9,20 @@
       <h1>{{temp}} ℃</h1>
 <br>
 
-  <span><input id="inputSearch" v-model="inputvalue" placeholder="Change Location" v-on:keyup.enter="getValue" >  </span>
+  <span><input id="inputSearch" v-model="inputvalue" placeholder="Search Location" v-on:keyup.enter="getValue" >  </span>
   <span id="inside"><i @click="getValue" class="fa fa-search-location"></i></span>
   <!-- <button id="inputButton1" @click="getValue">Search</button> -->
 
   <br>
    <br>
-      <span id="hovering"> <img src="../../icons/sunrise.png" />&nbsp;  {{sunrise}}</span>
+      <span id="hovering"> <img src="../../icons/sunrise.png" />&nbsp;</span>
+      <p class="sunset">{{sunrise}}</p>
       <br>
-      <span id="hovering" > <img src="../../icons/sunset.png" /> &nbsp;{{sunset}}</span>
+      <span id="hovering" > <img src="../../icons/sunset.png" /> &nbsp;</span>
+      <p class="sunset">{{sunset}}</p>
       <br>
-      <span  id="hovering"> <img src="../../icons/calendar.png" /> &nbsp;{{currentTime}}</span>
+      <span  id="hovering"> <img class="calendar" src="../../icons/calendar.png" /> &nbsp;</span>
+      <p class="currenttime">{{currentTime}}</p>
 
 
   </div>
@@ -63,9 +66,12 @@
   <br>
      <div id="buttonChange">
   
+    <button @click="prev">ᐊ</button>
     <button @click="showHourly">Hourly</button>
+    <button @click="next">ᐅ</button>
     <button @click="showDaily">Daily</button>
-
+   
+    
     </div>
 
   <div id="div3" v-if="dataHourly" >
@@ -233,7 +239,7 @@
 
  
 
-
+           
     
     <!-- <h1 >dew{{dew_point}}</h1> -->
     <!-- <h1 >hum{{humidity}}</h1> -->
@@ -285,44 +291,52 @@ export default {
        date3:'',
        date4:'',
        URL1:'',
+      i:0,
+      j:1,
+      k:2,
+      l:3,
+      m:4,
+      n:5,
+      o:6,
+      p:7,
 
-         date5:'',
+       date5:'',
        date6:'',
        date7:'',
        date8:'',
        URL2:'',
 
-         date9:'',
+       date9:'',
        date10:'',
        date11:'',
        date12:'',
        URL3:'',
 
-         date13:'',
+       date13:'',
        date14:'',
        date15:'',
        date16:'',
        URL4:'',
 
-         date17:'',
+       date17:'',
        date18:'',
        date19:'',
        date20:'',
        URL5:'',
 
-         date21:'',
+       date21:'',
        date22:'',
        date23:'',
        date24:'',
        URL6:'',
 
-         date25:'',
+       date25:'',
        date26:'',
        date27:'',
        date28:'',
        URL7:'',
 
-         date29:'',
+       date29:'',
        date30:'',
        date31:'',
        date32:'',
@@ -336,43 +350,43 @@ export default {
        daily4:'',
        URLD1:'',
 
-        daily5:'',
+       daily5:'',
        daily6:'',
        daily7:'',
        daily8:'',
        URLD2:'',
 
-        daily9:'',
+       daily9:'',
        daily10:'',
        daily11:'',
        daily12:'',
        URLD3:'',
 
-        daily13:'',
+       daily13:'',
        daily14:'',
        daily15:'',
        daily16:'',
        URLD4:'',
 
-         daily17:'',
+       daily17:'',
        daily18:'',
        daily19:'',
        daily20:'',
        URLD5:'',
 
-          daily21:'',
+       daily21:'',
        daily22:'',
        daily23:'',
        daily24:'',
        URLD6:'',
 
-          daily25:'',
+       daily25:'',
        daily26:'',
        daily27:'',
        daily28:'',
        URLD7:'',
 
-          daily29:'',
+       daily29:'',
        daily30:'',
        daily31:'',
        daily32:'',
@@ -381,7 +395,8 @@ export default {
 
       dataHourly:true,
       dataDaily:false,
-
+      nextclick:0,
+      prevclick:0,
 
     
 
@@ -459,7 +474,7 @@ export default {
 //hourly
 
       
-         let hourly_date1=(res.data.hourly[0].dt);
+        let hourly_date1=(res.data.hourly[0].dt);
         let D1=new Date(hourly_date1*1000);
         var Time1=D1.toLocaleTimeString();
         var newTime1 = new Date(new Date("2000/01/01 " + Time1).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -960,7 +975,7 @@ let Daily_date5=(res.data.daily[4].dt);
 
        this.getByname()
       
-
+       this.inputvalue=''
      
       })
 
@@ -1230,13 +1245,497 @@ let Daily_date5=(res.data.daily[4].dt);
     this.dataDaily=true;
 
     },
-    
+    next(){
+        this.nextclick++
+        if(this.saveDatalat==null || this.saveDatalong==null){
+             axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.latitude}&lon=${this.longitude}&appid=dad624d112b01d43844c2284c461e811`).then((res)=>{
+               let hourly_date1=(res.data.hourly[this.nextclick>1?this.i+16:this.i+8].dt);
+        let D1=new Date(hourly_date1*1000);
+        var Time1=D1.toLocaleTimeString();
+        var newTime1 = new Date(new Date("2000/01/01 " + Time1).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        this.date1=newTime1
+         
+        this.date2=Math.ceil((res.data.hourly[this.nextclick>1?this.i+16:this.i+8].temp)-273);
+        this.date3=Math.ceil((res.data.hourly[this.nextclick>1?this.i+16:this.i+8].feels_like)-273)
+        this.date4=res.data.hourly[this.nextclick>1?this.i+16:this.i+8].weather[0].icon;
+
+        var url1=`http://openweathermap.org/img/w/${this.date4}.png`
+        this.URL1=url1;
+        //2
+   
+         let hourly_date2=(res.data.hourly[this.nextclick>1?this.j+16:this.j+8].dt);
+        let D2=new Date(hourly_date2*1000);
+            var Time2=D2.toLocaleTimeString();
+    var newTime2 = new Date(new Date("2000/01/01 " + Time2).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date5=newTime2
+
+         
+        this.date6=Math.ceil((res.data.hourly[this.nextclick>1?this.j+16:this.j+8].temp)-273);
+        this.date7=Math.ceil((res.data.hourly[this.nextclick>1?this.j+16:this.j+8].feels_like)-273)
+        this.date8=res.data.hourly[this.nextclick>1?this.j+16:this.j+8].weather[0].icon;
+
+        var url2=`http://openweathermap.org/img/w/${this.date8}.png`
+        this.URL2=url2;
+
+//3
+         let hourly_date3=(res.data.hourly[this.nextclick>1?this.k+16:this.k+8].dt);
+        let D3=new Date(hourly_date3*1000);
+              var Time3=D3.toLocaleTimeString();
+    var newTime3 = new Date(new Date("2000/01/01 " + Time3).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date9=newTime3
+
+         
+        this.date10=Math.ceil((res.data.hourly[this.nextclick>1?this.k+16:this.k+8].temp)-273);
+        this.date11=Math.ceil((res.data.hourly[this.nextclick>1?this.k+16:this.k+8].feels_like)-273)
+        this.date12=res.data.hourly[this.nextclick>1?this.k+16:this.k+8].weather[0].icon;
+
+        var url3=`http://openweathermap.org/img/w/${this.date12}.png`
+        this.URL3=url3;
+
+       //4
+         let hourly_date4=(res.data.hourly[this.nextclick>1?this.l+16:this.l+8].dt);
+        let D4=new Date(hourly_date4*1000);
+        var Time4=D4.toLocaleTimeString();
+    var newTime4 = new Date(new Date("2000/01/01 " + Time4).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date13=newTime4
+         
+        this.date14=Math.ceil((res.data.hourly[this.nextclick>1?this.l+16:this.l+8].temp)-273);
+        this.date15=Math.ceil((res.data.hourly[this.nextclick>1?this.l+16:this.l+8].feels_like)-273)
+        this.date16=res.data.hourly[this.nextclick>1?this.l+16:this.l+8].weather[0].icon;
+
+        var url4=`http://openweathermap.org/img/w/${this.date16}.png`
+        this.URL4=url4; 
+
+             //5
+         let hourly_date5=(res.data.hourly[this.nextclick>1?this.m+16:this.m+8].dt);
+        let D5=new Date(hourly_date5*1000);
+        var Time5=D5.toLocaleTimeString();
+    var newTime5 = new Date(new Date("2000/01/01 " + Time5).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date17=newTime5
+         
+        this.date18=Math.ceil((res.data.hourly[this.nextclick>1?this.m+16:this.m+8].temp)-273);
+        this.date19=Math.ceil((res.data.hourly[this.nextclick>1?this.m+16:this.m+8].feels_like)-273)
+        this.date20=res.data.hourly[this.nextclick>1?this.m+16:this.m+8].weather[0].icon;
+
+        var url5=`http://openweathermap.org/img/w/${this.date20}.png`
+        this.URL5=url5; 
+
+        
+             //6
+         let hourly_date6=(res.data.hourly[this.nextclick>1?this.n+16:this.n+8].dt);
+        let D6=new Date(hourly_date6*1000);
+          var Time6=D6.toLocaleTimeString();
+    var newTime6 = new Date(new Date("2000/01/01 " + Time6).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date21=newTime6
+         
+        this.date22=Math.ceil((res.data.hourly[this.nextclick>1?this.n+16:this.n+8].temp)-273);
+        this.date23=Math.ceil((res.data.hourly[this.nextclick>1?this.n+16:this.n+8].feels_like)-273)
+        this.date24=res.data.hourly[this.nextclick>1?this.n+16:this.n+8].weather[0].icon;
+
+        var url6=`http://openweathermap.org/img/w/${this.date24}.png`
+        this.URL6=url6; 
+
+               //7
+         let hourly_date7=(res.data.hourly[this.nextclick>1?this.o+16:this.o+8].dt);
+        let D7=new Date(hourly_date7*1000);
+          var Time7=D7.toLocaleTimeString();
+    var newTime7 = new Date(new Date("2000/01/01 " + Time7).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date25=newTime7
+         
+        this.date26=Math.ceil((res.data.hourly[this.nextclick>1?this.o+16:this.o+8].temp)-273);
+        this.date27=Math.ceil((res.data.hourly[this.nextclick>1?this.o+16:this.o+8].feels_like)-273)
+        this.date28=res.data.hourly[this.nextclick>1?this.o+16:this.o+8].weather[0].icon;
+
+        var url7=`http://openweathermap.org/img/w/${this.date28}.png`
+        this.URL7=url7; 
+
+               //8
+         let hourly_date8=(res.data.hourly[this.nextclick>1?this.p+16:this.p+8].dt);
+        let D8=new Date(hourly_date8*1000);
+            var Time8=D8.toLocaleTimeString();
+    var newTime8 = new Date(new Date("2000/01/01 " + Time8).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date29=newTime8
+         
+        this.date30=Math.ceil((res.data.hourly[this.nextclick>1?this.p+16:this.p+8].temp)-273);
+        this.date31=Math.ceil((res.data.hourly[this.nextclick>1?this.p+16:this.p+8].feels_like)-273)
+        this.date32=res.data.hourly[this.nextclick>1?this.p+16:this.p+8].weather[0].icon;
+
+        var url8=`http://openweathermap.org/img/w/${this.date32}.png`
+        this.URL8=url8; 
+
+             })
+        }
+        else
+        {
+       axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.saveDatalat}&lon=${this.saveDatalong}&appid=dad624d112b01d43844c2284c461e811`).then((res)=>{
+        let hourly_date1=(res.data.hourly[this.nextclick>1?this.i+16:this.i+8].dt);
+        let D1=new Date(hourly_date1*1000);
+        var Time1=D1.toLocaleTimeString();
+        var newTime1 = new Date(new Date("2000/01/01 " + Time1).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        this.date1=newTime1
+         
+        this.date2=Math.ceil((res.data.hourly[this.nextclick>1?this.i+16:this.i+8].temp)-273);
+        this.date3=Math.ceil((res.data.hourly[this.nextclick>1?this.i+16:this.i+8].feels_like)-273)
+        this.date4=res.data.hourly[this.nextclick>1?this.i+16:this.i+8].weather[0].icon;
+
+        var url1=`http://openweathermap.org/img/w/${this.date4}.png`
+        this.URL1=url1;
+        //2
+   
+         let hourly_date2=(res.data.hourly[this.nextclick>1?this.j+16:this.j+8].dt);
+        let D2=new Date(hourly_date2*1000);
+            var Time2=D2.toLocaleTimeString();
+    var newTime2 = new Date(new Date("2000/01/01 " + Time2).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date5=newTime2
+
+         
+        this.date6=Math.ceil((res.data.hourly[this.nextclick>1?this.j+16:this.j+8].temp)-273);
+        this.date7=Math.ceil((res.data.hourly[this.nextclick>1?this.j+16:this.j+8].feels_like)-273)
+        this.date8=res.data.hourly[this.nextclick>1?this.j+16:this.j+8].weather[0].icon;
+
+        var url2=`http://openweathermap.org/img/w/${this.date8}.png`
+        this.URL2=url2;
+
+//3
+         let hourly_date3=(res.data.hourly[this.nextclick>1?this.k+16:this.k+8].dt);
+        let D3=new Date(hourly_date3*1000);
+              var Time3=D3.toLocaleTimeString();
+    var newTime3 = new Date(new Date("2000/01/01 " + Time3).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date9=newTime3
+
+         
+        this.date10=Math.ceil((res.data.hourly[this.nextclick>1?this.k+16:this.k+8].temp)-273);
+        this.date11=Math.ceil((res.data.hourly[this.nextclick>1?this.k+16:this.k+8].feels_like)-273)
+        this.date12=res.data.hourly[this.nextclick>1?this.k+16:this.k+8].weather[0].icon;
+
+        var url3=`http://openweathermap.org/img/w/${this.date12}.png`
+        this.URL3=url3;
+
+       //4
+         let hourly_date4=(res.data.hourly[this.nextclick>1?this.l+16:this.l+8].dt);
+        let D4=new Date(hourly_date4*1000);
+        var Time4=D4.toLocaleTimeString();
+    var newTime4 = new Date(new Date("2000/01/01 " + Time4).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date13=newTime4
+         
+        this.date14=Math.ceil((res.data.hourly[this.nextclick>1?this.l+16:this.l+8].temp)-273);
+        this.date15=Math.ceil((res.data.hourly[this.nextclick>1?this.l+16:this.l+8].feels_like)-273)
+        this.date16=res.data.hourly[this.nextclick>1?this.l+16:this.l+8].weather[0].icon;
+
+        var url4=`http://openweathermap.org/img/w/${this.date16}.png`
+        this.URL4=url4; 
+
+             //5
+         let hourly_date5=(res.data.hourly[this.nextclick>1?this.m+16:this.m+8].dt);
+        let D5=new Date(hourly_date5*1000);
+        var Time5=D5.toLocaleTimeString();
+    var newTime5 = new Date(new Date("2000/01/01 " + Time5).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date17=newTime5
+         
+        this.date18=Math.ceil((res.data.hourly[this.nextclick>1?this.m+16:this.m+8].temp)-273);
+        this.date19=Math.ceil((res.data.hourly[this.nextclick>1?this.m+16:this.m+8].feels_like)-273)
+        this.date20=res.data.hourly[this.nextclick>1?this.m+16:this.m+8].weather[0].icon;
+
+        var url5=`http://openweathermap.org/img/w/${this.date20}.png`
+        this.URL5=url5; 
+
+        
+             //6
+         let hourly_date6=(res.data.hourly[this.nextclick>1?this.n+16:this.n+8].dt);
+        let D6=new Date(hourly_date6*1000);
+          var Time6=D6.toLocaleTimeString();
+    var newTime6 = new Date(new Date("2000/01/01 " + Time6).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date21=newTime6
+         
+        this.date22=Math.ceil((res.data.hourly[this.nextclick>1?this.n+16:this.n+8].temp)-273);
+        this.date23=Math.ceil((res.data.hourly[this.nextclick>1?this.n+16:this.n+8].feels_like)-273)
+        this.date24=res.data.hourly[this.nextclick>1?this.n+16:this.n+8].weather[0].icon;
+
+        var url6=`http://openweathermap.org/img/w/${this.date24}.png`
+        this.URL6=url6; 
+
+               //7
+         let hourly_date7=(res.data.hourly[this.nextclick>1?this.o+16:this.o+8].dt);
+        let D7=new Date(hourly_date7*1000);
+          var Time7=D7.toLocaleTimeString();
+    var newTime7 = new Date(new Date("2000/01/01 " + Time7).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date25=newTime7
+         
+        this.date26=Math.ceil((res.data.hourly[this.nextclick>1?this.o+16:this.o+8].temp)-273);
+        this.date27=Math.ceil((res.data.hourly[this.nextclick>1?this.o+16:this.o+8].feels_like)-273)
+        this.date28=res.data.hourly[this.nextclick>1?this.o+16:this.o+8].weather[0].icon;
+
+        var url7=`http://openweathermap.org/img/w/${this.date28}.png`
+        this.URL7=url7; 
+
+               //8
+         let hourly_date8=(res.data.hourly[this.nextclick>1?this.p+16:this.p+8].dt);
+        let D8=new Date(hourly_date8*1000);
+            var Time8=D8.toLocaleTimeString();
+    var newTime8 = new Date(new Date("2000/01/01 " + Time8).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date29=newTime8
+         
+        this.date30=Math.ceil((res.data.hourly[this.nextclick>1?this.p+16:this.p+8].temp)-273);
+        this.date31=Math.ceil((res.data.hourly[this.nextclick>1?this.p+16:this.p+8].feels_like)-273)
+        this.date32=res.data.hourly[this.nextclick>1?this.p+16:this.p+8].weather[0].icon;
+
+        var url8=`http://openweathermap.org/img/w/${this.date32}.png`
+        this.URL8=url8; 
+
+        
+
+       })
+     
+        }
+    },
+    prev(){
+      this.nextclick=0
+      if(this.saveDatalat==null || this.saveDatalong==null){
+         axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.latitude}&lon=${this.longitude}&appid=dad624d112b01d43844c2284c461e811`).then((res)=>{
+             let hourly_date1=(res.data.hourly[this.i].dt);
+        let D1=new Date(hourly_date1*1000);
+        var Time1=D1.toLocaleTimeString();
+        var newTime1 = new Date(new Date("2000/01/01 " + Time1).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        this.date1=newTime1
+         
+        this.date2=Math.ceil((res.data.hourly[this.i].temp)-273);
+        this.date3=Math.ceil((res.data.hourly[this.i].feels_like)-273)
+        this.date4=res.data.hourly[this.i].weather[0].icon;
+
+        var url1=`http://openweathermap.org/img/w/${this.date4}.png`
+        this.URL1=url1;
+        //2
+   
+         let hourly_date2=(res.data.hourly[this.j].dt);
+        let D2=new Date(hourly_date2*1000);
+            var Time2=D2.toLocaleTimeString();
+    var newTime2 = new Date(new Date("2000/01/01 " + Time2).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date5=newTime2
+
+         
+        this.date6=Math.ceil((res.data.hourly[this.j].temp)-273);
+        this.date7=Math.ceil((res.data.hourly[this.j].feels_like)-273)
+        this.date8=res.data.hourly[this.j].weather[0].icon;
+
+        var url2=`http://openweathermap.org/img/w/${this.date8}.png`
+        this.URL2=url2;
+
+//3
+         let hourly_date3=(res.data.hourly[this.k].dt);
+        let D3=new Date(hourly_date3*1000)
+              var Time3=D3.toLocaleTimeString();
+    var newTime3 = new Date(new Date("2000/01/01 " + Time3).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date9=newTime3
+
+         
+        this.date10=Math.ceil((res.data.hourly[this.k].temp)-273);
+        this.date11=Math.ceil((res.data.hourly[this.k].feels_like)-273)
+        this.date12=res.data.hourly[this.k].weather[0].icon;
+
+        var url3=`http://openweathermap.org/img/w/${this.date12}.png`
+        this.URL3=url3;
+
+       //4
+         let hourly_date4=(res.data.hourly[this.l].dt);
+        let D4=new Date(hourly_date4*1000);
+        var Time4=D4.toLocaleTimeString();
+    var newTime4 = new Date(new Date("2000/01/01 " + Time4).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date13=newTime4
+         
+        this.date14=Math.ceil((res.data.hourly[this.l].temp)-273);
+        this.date15=Math.ceil((res.data.hourly[this.l].feels_like)-273)
+        this.date16=res.data.hourly[this.l].weather[0].icon;
+
+        var url4=`http://openweathermap.org/img/w/${this.date16}.png`
+        this.URL4=url4; 
+
+             //5
+         let hourly_date5=(res.data.hourly[this.m].dt);
+        let D5=new Date(hourly_date5*1000);
+        var Time5=D5.toLocaleTimeString();
+    var newTime5 = new Date(new Date("2000/01/01 " + Time5).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date17=newTime5
+        
+        this.date18=Math.ceil((res.data.hourly[this.m].temp)-273);
+        this.date19=Math.ceil((res.data.hourly[this.m].feels_like)-273)
+        this.date20=res.data.hourly[this.m].weather[0].icon;
+
+        var url5=`http://openweathermap.org/img/w/${this.date20}.png`
+        this.URL5=url5; 
+
+        
+             //6
+         let hourly_date6=(res.data.hourly[this.n].dt);
+        let D6=new Date(hourly_date6*1000);
+          var Time6=D6.toLocaleTimeString();
+    var newTime6 = new Date(new Date("2000/01/01 " + Time6).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date21=newTime6
+         
+        this.date22=Math.ceil((res.data.hourly[this.n].temp)-273);
+        this.date23=Math.ceil((res.data.hourly[this.n].feels_like)-273)
+        this.date24=res.data.hourly[this.n].weather[0].icon;
+
+        var url6=`http://openweathermap.org/img/w/${this.date24}.png`
+        this.URL6=url6; 
+
+               //7
+         let hourly_date7=(res.data.hourly[this.o].dt);
+        let D7=new Date(hourly_date7*1000);
+          var Time7=D7.toLocaleTimeString();
+    var newTime7 = new Date(new Date("2000/01/01 " + Time7).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date25=newTime7
+        
+        this.date26=Math.ceil((res.data.hourly[this.o].temp)-273);
+        this.date27=Math.ceil((res.data.hourly[this.o].feels_like)-273)
+        this.date28=res.data.hourly[this.o].weather[0].icon;
+
+        var url7=`http://openweathermap.org/img/w/${this.date28}.png`
+        this.URL7=url7; 
+
+               //8
+         let hourly_date8=(res.data.hourly[this.p].dt);
+        let D8=new Date(hourly_date8*1000);
+            var Time8=D8.toLocaleTimeString();
+    var newTime8 = new Date(new Date("2000/01/01 " + Time8).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date29=newTime8
+         
+        this.date30=Math.ceil((res.data.hourly[this.p].temp)-273);
+        this.date31=Math.ceil((res.data.hourly[this.p].feels_like)-273)
+        this.date32=res.data.hourly[this.p].weather[0].icon;
+
+        var url8=`http://openweathermap.org/img/w/${this.date32}.png`
+        this.URL8=url8; 
+
+         })
+      }
+    else{
+      axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.saveDatalat}&lon=${this.saveDatalong}&appid=dad624d112b01d43844c2284c461e811`).then((res)=>{
+        let hourly_date1=(res.data.hourly[this.i].dt);
+        let D1=new Date(hourly_date1*1000);
+        var Time1=D1.toLocaleTimeString();
+        var newTime1 = new Date(new Date("2000/01/01 " + Time1).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        this.date1=newTime1
+         
+        this.date2=Math.ceil((res.data.hourly[this.i].temp)-273);
+        this.date3=Math.ceil((res.data.hourly[this.i].feels_like)-273)
+        this.date4=res.data.hourly[this.i].weather[0].icon;
+
+        var url1=`http://openweathermap.org/img/w/${this.date4}.png`
+        this.URL1=url1;
+        //2
+   
+         let hourly_date2=(res.data.hourly[this.j].dt);
+        let D2=new Date(hourly_date2*1000);
+            var Time2=D2.toLocaleTimeString();
+    var newTime2 = new Date(new Date("2000/01/01 " + Time2).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date5=newTime2
+
+         
+        this.date6=Math.ceil((res.data.hourly[this.j].temp)-273);
+        this.date7=Math.ceil((res.data.hourly[this.j].feels_like)-273)
+        this.date8=res.data.hourly[this.j].weather[0].icon;
+
+        var url2=`http://openweathermap.org/img/w/${this.date8}.png`
+        this.URL2=url2;
+
+//3
+         let hourly_date3=(res.data.hourly[this.k].dt);
+        let D3=new Date(hourly_date3*1000)
+              var Time3=D3.toLocaleTimeString();
+    var newTime3 = new Date(new Date("2000/01/01 " + Time3).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date9=newTime3
+
+         
+        this.date10=Math.ceil((res.data.hourly[this.k].temp)-273);
+        this.date11=Math.ceil((res.data.hourly[this.k].feels_like)-273)
+        this.date12=res.data.hourly[this.k].weather[0].icon;
+
+        var url3=`http://openweathermap.org/img/w/${this.date12}.png`
+        this.URL3=url3;
+
+       //4
+         let hourly_date4=(res.data.hourly[this.l].dt);
+        let D4=new Date(hourly_date4*1000);
+        var Time4=D4.toLocaleTimeString();
+    var newTime4 = new Date(new Date("2000/01/01 " + Time4).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date13=newTime4
+         
+        this.date14=Math.ceil((res.data.hourly[this.l].temp)-273);
+        this.date15=Math.ceil((res.data.hourly[this.l].feels_like)-273)
+        this.date16=res.data.hourly[this.l].weather[0].icon;
+
+        var url4=`http://openweathermap.org/img/w/${this.date16}.png`
+        this.URL4=url4; 
+
+             //5
+         let hourly_date5=(res.data.hourly[this.m].dt);
+        let D5=new Date(hourly_date5*1000);
+        var Time5=D5.toLocaleTimeString();
+    var newTime5 = new Date(new Date("2000/01/01 " + Time5).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date17=newTime5
+        
+        this.date18=Math.ceil((res.data.hourly[this.m].temp)-273);
+        this.date19=Math.ceil((res.data.hourly[this.m].feels_like)-273)
+        this.date20=res.data.hourly[this.m].weather[0].icon;
+
+        var url5=`http://openweathermap.org/img/w/${this.date20}.png`
+        this.URL5=url5; 
+
+        
+             //6
+         let hourly_date6=(res.data.hourly[this.n].dt);
+        let D6=new Date(hourly_date6*1000);
+          var Time6=D6.toLocaleTimeString();
+    var newTime6 = new Date(new Date("2000/01/01 " + Time6).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date21=newTime6
+         
+        this.date22=Math.ceil((res.data.hourly[this.n].temp)-273);
+        this.date23=Math.ceil((res.data.hourly[this.n].feels_like)-273)
+        this.date24=res.data.hourly[this.n].weather[0].icon;
+
+        var url6=`http://openweathermap.org/img/w/${this.date24}.png`
+        this.URL6=url6; 
+
+               //7
+         let hourly_date7=(res.data.hourly[this.o].dt);
+        let D7=new Date(hourly_date7*1000);
+          var Time7=D7.toLocaleTimeString();
+    var newTime7 = new Date(new Date("2000/01/01 " + Time7).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date25=newTime7
+        
+        this.date26=Math.ceil((res.data.hourly[this.o].temp)-273);
+        this.date27=Math.ceil((res.data.hourly[this.o].feels_like)-273)
+        this.date28=res.data.hourly[this.o].weather[0].icon;
+
+        var url7=`http://openweathermap.org/img/w/${this.date28}.png`
+        this.URL7=url7; 
+
+               //8
+         let hourly_date8=(res.data.hourly[this.p].dt);
+        let D8=new Date(hourly_date8*1000);
+            var Time8=D8.toLocaleTimeString();
+    var newTime8 = new Date(new Date("2000/01/01 " + Time8).getTime() + 45 * 60000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    this.date29=newTime8
+         
+        this.date30=Math.ceil((res.data.hourly[this.p].temp)-273);
+        this.date31=Math.ceil((res.data.hourly[this.p].feels_like)-273)
+        this.date32=res.data.hourly[this.p].weather[0].icon;
+
+        var url8=`http://openweathermap.org/img/w/${this.date32}.png`
+        this.URL8=url8; 
+
+       })
+    }
+      
+    }
+   
     
   },
 
   created(){
     this.findMyLocation()
-  }
+  },
+
 }
 
 </script>
@@ -1247,17 +1746,37 @@ let Daily_date5=(res.data.daily[4].dt);
 *{
   margin: 0;
 }
-
+body{
+  font-family: 'Lato', sans-serif;
+}
+.currenttime{
+  margin-top:-35px;
+  margin-left:42px;
+  width:300px;
+  height:10vh
+}
+.sunset{
+   margin-top:-25px;
+   margin-left:42px;
+}
+.calendar{
+  margin-top:10px;
+  color:green
+}
 #img{
-  background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
-
-height: 730px;
+ background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+ filter: contrast(100%);
+ filter:saturate(170%);
+ height: 900px;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
-background-size: cover;
-  color: aqua;
+ background-size: cover;
+ color: aqua;
   /* //background-image: url("https://images.pexels.com/photos/3454270/pexels-photo-3454270.jpeg?auto=compress&cs=tinysrgb&w=1500&h=900&dpr=1"); */
+}
+#inputSearch:focus{
+    outline: none;
 }
 #div1{
 padding-top: 2.5%;
@@ -1321,10 +1840,12 @@ transform: scale(1.1);
 #humidty>img{
   height: 30px;
   width: 30px;
+  margin-top:10px
 }
 #div2_1{
     transition: all .2s ease-in-out;
-  margin-bottom: 10%;
+    margin-bottom: 10%;
+  
 }
 #div2_1:hover{
 transform: scale(1.1);
@@ -1334,15 +1855,16 @@ transform: scale(1.1);
   vertical-align: top;
 font-weight: bolder;
   font-family:Arial ;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 #div2_1>p{
 
-  margin-left: 15%;
-font-weight: bolder;
+  margin-left: 38px;
+  font-weight: bolder;
   font-family:Arial ;
   font-size: 20px;
+  margin-top:-20px
 }
 #div3{
   margin-top: 2%;
@@ -1405,12 +1927,12 @@ transform: scale(1.1);
 
 }
 #inputSearch{
-  background: url("../../icons/placeholder.png") no-repeat scroll 7px 7px;
+background: url("../../icons/placeholder.png") no-repeat scroll 7px 7px;
 padding-left:30px;
-  display: inline-block;
+display: inline-block;
 color:white;
-    height: 20px;
- border-radius: 25px;
+height: 25px;
+border-radius: 25px;
 
 }
 #inputButton1{
@@ -1434,10 +1956,13 @@ color:white;
   opacity: 1; /* Firefox */
 }
 #inside{
-margin-left: -20px;
+margin-left: 14.5%;
+margin-top:-1.5% ;
+position: absolute;
 }
 #hovering{
   transition: all .2s ease-in-out;
+  
 }
 #hovering:hover{
 transform: scale(1.5);
@@ -1449,6 +1974,7 @@ font-weight: bolder;
 }
 #hovering:hover>img{
 transform: scale(1.2);
+
 }
 
 
@@ -1704,5 +2230,18 @@ transform: scale(1.1);
 
 }
 }
+
+@media (min-width:501px) and (max-width:1200px){
+#img{
+  height: 1000px;
+}
+#inside{
+  position:absolute;
+  margin-left:180px;
+  margin-top: -20px;
+}
+
+}
+
 </style>
 
