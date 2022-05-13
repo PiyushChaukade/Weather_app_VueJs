@@ -1767,7 +1767,7 @@ body{
  background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
  filter: contrast(100%);
  filter:saturate(170%);
- height: 680px;
+ height: 650px;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
