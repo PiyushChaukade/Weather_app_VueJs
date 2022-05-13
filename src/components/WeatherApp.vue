@@ -14,7 +14,7 @@
   <!-- <button id="inputButton1" @click="getValue">Search</button> -->
 
   <br>
-   <br>
+   
       <span id="hovering"> <img src="../../icons/sunrise.png" />&nbsp;</span>
       <p class="sunset">{{sunrise}}</p>
       <br>
@@ -1767,7 +1767,7 @@ body{
  background: url("https://images.pexels.com/photos/2589456/pexels-photo-2589456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
  filter: contrast(100%);
  filter:saturate(170%);
- height: 900px;
+ height: 625px;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
@@ -1779,7 +1779,7 @@ body{
     outline: none;
 }
 #div1{
-padding-top: 2.5%;
+padding-top: 1%;
  
   width: 15%;
   height: fit-content;
@@ -1812,7 +1812,7 @@ transform: scale(1.1);
 #div1>h1{
 font-family:Arial;
 font-weight: bolder;
- font-size: 70px;
+ font-size: 60px;
   transition: all .2s ease-in-out;
 }
 #div1>h1:hover{
@@ -1832,7 +1832,7 @@ transform: scale(1.1);
   margin-left: 60%;
   vertical-align: top;
   
-  margin-top: 5%;
+  margin-top: 2.5%;
   width: 15%;
   height: 25%;
    color: whitesmoke;
@@ -1905,8 +1905,8 @@ transform: scale(1.1);
   text-align: center;
 }
 #buttonChange{
-  margin-top: 3%;
-  margin-left: 6%;
+  margin-top: 0.5%;
+  margin-left: 1.5%;
 }
 #buttonChange>button{
   margin-right: 1%;
@@ -1956,7 +1956,7 @@ border-radius: 25px;
   opacity: 1; /* Firefox */
 }
 #inside{
-margin-left: 14.5%;
+margin-left: 13%;
 margin-top:-1.5% ;
 position: absolute;
 }
